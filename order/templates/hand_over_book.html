@@ -1,0 +1,23 @@
+{% extends 'wrapper.html' %}
+{%block title%}
+Users
+{% endblock%}
+{% block content %}
+<h1>User with hand over time</h1>
+<hr>
+{% if orders %}
+
+{% for order in orders %}
+
+<h2>First name: {{order.user.first_name}}</h2>
+<h2>Midle name: {{order.user.middle_name}}</h2>
+<h2>Email: {{order.user.email}}</h2>
+<h2>Book: {{order.book.name}}</h2>
+<p style="color: red;">Plated end: {{order.plated_end_at}}</p></h3>
+<hr>
+{% endfor %}
+{% else %}
+<h1>Error</h1>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'wrapper.html' %}
+
+{% block content %}
+    <article class="blog-post">
+        <h2 class="blog-post-title">{{ book.name }}</h2>
+        <div>By
+            {% for author in book.get_authors %}
+                 <h6 class="badge bg-secondary text-decoration-none link-light">{{ author }}</h6>
+            {% endfor %}
+        </div>
+        <hr>
+        <h2>Description</h2>
+        <p>{{ book.description }}</p>
+        <hr>
+        <p>In Stock: {{ book.count }}</p>
+    </article>
+{% endblock content %}

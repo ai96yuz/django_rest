@@ -1,0 +1,29 @@
+{% extends 'wrapper.html' %}
+{% block content %}
+<div class="container mt-5 mb-5">
+    <table class="table" style="width: 100px">
+      <tbody>
+        <tr>
+          <th scope="row">First Name:</th>
+          <td style="text-align: right">{{ user.first_name }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Middle Name:</th>
+          <td style="text-align: right">{{ user.middle_name }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Last Name:</th>
+          <td style="text-align: right">{{ user.last_name }}</td>
+        </tr>
+        <tr>
+          <th scope="row">E-mail:</th>
+          <td style="text-align: right">{{ user.email }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Created at:</th>
+          <td style="text-align: right">{{ user.created_at }}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+{% endblock content %}
