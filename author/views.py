@@ -23,7 +23,7 @@ def create_author(request):
         new_author = AuthorForm(request.POST)
         if new_author.is_valid():
             author_id = new_author.save().id
-            return redirect('/authors/', author_id)
+            return redirect('/author/', author_id)
         else:
             error = 'Form is incorrect!'
 
@@ -39,7 +39,7 @@ def update_author(request, pk):
         updated_author = AuthorForm(request.POST, instance=Author.get_by_id(pk))
         if updated_author.is_valid():
             author_id = updated_author.save().id
-            return redirect('/authors/', author_id)
+            return redirect('/author/', author_id)
         else:
             error = 'Form is incorrect'
 
@@ -49,4 +49,4 @@ def update_author(request, pk):
 
 def delete_author(request, pk):
     Author.delete_by_id(pk)
-    return redirect('/authors/')
+    return redirect('/author/')

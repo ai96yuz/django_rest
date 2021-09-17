@@ -40,12 +40,12 @@
                         </div>
                         <div class="mb-1 text-muted">In Stock: {{ book.count }}</div>
                         <p class="card-text mb-auto">{{ book.description }}</p>
-                        <a href="{% url 'book_details' book_id=book.id %}" class="stretched-link">Read more</a>
+                        <a href="{% url 'book_item' book_id=book.id %}" class="stretched-link">Read more</a>
                     </div>
                 </div>
             {% endfor %}
         {% else %}
-        <h1>Sorry! But we don't have any books( </h1>
+        <h5>Sorry! This author don't have any books( </h5>
         {%endif%}
     <div class="row g-4 py-4 row-cols-1 row-cols-lg-6">
         <br><br><a href="{% url 'delete_author' id %}" class= "btn btn-lg btn-secondary btn-rounded btn-sm"> <small><b>Delete author</b></small></a>

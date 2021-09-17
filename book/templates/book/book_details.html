@@ -1,0 +1,25 @@
+{% extends 'wrapper.html' %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block content %}
+    <article class="blog-post">
+        <h2 class="blog-post-title">{{ title }}</h2>
+        <div>By
+            <h6 class="badge bg-secondary text-decoration-none link-light">{{ authors }}</h6>
+        </div>
+        <hr>
+        <h2>Description</h2>
+        <p>{{ description }}</p>
+        <hr>
+        <p>In Stock: {{ count }}</p>
+
+        <div class="row g-4 py-4 row-cols-1 row-cols-lg-6">
+            <br><br><a href="{% url 'delete_book' id %}" class="badge bg-secondary text-decoration-none"> <small><b>Delete book</b></small></a>
+            <br><a href="{% url 'update_book' id %}" class="badge bg-secondary text-decoration-none"> <small><b>Change details</b></small></a>
+        </div>
+
+    </article>
+{% endblock content %}
