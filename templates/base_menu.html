@@ -1,3 +1,5 @@
+{% block content %}
+
 <div class="container px-4 py-5" id="featured-3">
     <h2 class="pb-2 border-bottom">Books Catalog</h2>
     <header class="d-flex justify-content-center py-3">
@@ -8,6 +10,8 @@
           <li class="nav-item"><a href="{% url 'sort_book_asc'%}" class="nav-link">Sort by asc</a></li>
           <li class="nav-item"><a href="{% url 'sort_book_desc'%}" class="nav-link">Sort by desc</a></li>
           <li class="nav-item"><a href="{% url 'sort_book_count'%}" class="nav-link">Sort by count</a></li>
-
         </ul>
       </header>
+</div>
+
+{% endblock content %}

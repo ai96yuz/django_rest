@@ -1,0 +1,25 @@
+{% extends 'wrapper.html' %}
+
+{% block title %}
+    Author Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+    <h1 class="pb-2 border-bottom">Author Details</h1>
+
+        <form method = "POST"> {% csrf_token %}
+            <small>Author name:</small>
+            {{author.name}}<br>
+            <small>Author surname:</small>
+            {{author.surname}}<br>
+            <small>Author patronymic:</small>
+            {{author.patronymic}}<br>
+            <input type='submit' class="col-lg-1 btn btn-lg btn-secondary btn-rounded btn-sm" value='Submit'/>
+            {{ error }}
+        </form>
+
+</div>
+
+{% endblock %}
