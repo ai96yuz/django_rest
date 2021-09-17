@@ -1,0 +1,56 @@
+{% extends 'wrapper.html' %}
+
+{% block title %}
+    {{ name }} {{ surname}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+    <h1 class="pb-2 border-bottom">{{ name }} {{ surname }}</h1>
+    <table class="table" style="width: 100px">
+        <tbody>
+            <tr>
+                <th scope="row">Name:</th>
+                <td style="text-align: right">{{ name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Patronymic:</th>
+                <td style="text-align: right">{{ patronymic }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Surname:</th>
+                <td style="text-align: right">{{ surname }}</td>
+            </tr>
+        </tbody>
+    </table>
+        <article class="blog-post">
+            <h4 class="pb-2 border-bottom">Author books<br></h4>
+        </article>
+        {% if books %}
+            {% for book in books %}
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0">{{ book.name }}</h3>
+                        <div class="mb-1">
+                            By
+                            {% for author in book.get_authors %}
+                                <h6 class="badge bg-secondary text-decoration-none link-light">{{ author }}</h6>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-1 text-muted">In Stock: {{ book.count }}</div>
+                        <p class="card-text mb-auto">{{ book.description }}</p>
+                        <a href="{% url 'book_details' book_id=book.id %}" class="stretched-link">Read more</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+        <h1>Sorry! But we don't have any books( </h1>
+        {%endif%}
+    <div class="row g-4 py-4 row-cols-1 row-cols-lg-6">
+        <br><br><a href="{% url 'delete_author' id %}" class= "btn btn-lg btn-secondary btn-rounded btn-sm"> <small><b>Delete author</b></small></a>
+        <br><a href="{% url 'update_author' id %}" class= "btn btn-lg btn-secondary btn-rounded btn-sm"> <small><b>Update author</b></small></a>
+    </div>
+</div>
+
+{% endblock %}

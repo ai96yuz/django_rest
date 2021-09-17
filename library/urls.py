@@ -17,16 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import *
 
-from book import urls as book_urls
-from author import urls as author_urls
-from authentication import urls as user_urls
-from order import urls as order_urls
-
 urlpatterns = [
-    path('', base_view, name="home"),
     path('admin/', admin.site.urls),
-    path('books/', include(book_urls)),
-    path('authors/', include(author_urls)),
-    path('orders/', include(order_urls)),
-    path('users/', include(user_urls)),
+    path('', base_view, name="home"),
+    path('', include('book.urls')),
+    path('', include('author.urls')),
+    path('', include('authentication.urls')),
+    path('', include('order.urls')),
 ]
