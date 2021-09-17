@@ -1,73 +1,58 @@
-from django.shortcuts import render
-from django.views import generic
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
+from django.shortcuts import render, redirect
 
-from book.models import Book
-
-
-# class BookListView(generic.ListView):
-#     model = Book
-#
-#     context_object_name = 'books'
-#     queryset = Book.objects.all()
-#     template_name = 'all_books.html'
+from .models import Book
+from order.models import Order
+from .forms import BookForm
 
 
-class UnorderedBookListView(generic.ListView):
-    model = Book
-
-    context_object_name = 'books'
-    queryset = Book.objects.all()
-    template_name = 'book_unordered.html'
+def books(request):
+    return render(request, 'book/books.html', {'books': Book.objects.all()})
 
 
-def book_detail_view(request, book_id):
-    template_name = "book_details.html"
-    book = Book.get_by_id(book_id)
+def book_item(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    amount_left = book.count - Order.objects.filter(book=book_id, end_at=None).count()
 
-    return render(request, template_name, {"book": book, "page_title": book.name})
+    # context = {'title': book.name, 'id': book.id, 'authors': book.authors.all(),
+    context = {'title': book.name, 'id': book.id, 'authors': book.get_authors,
+               'count': book.count, 'amount_left': amount_left, 'description': book.description}
 
-
-def all_books_view(request):
-    template_name = "all_books.html"
-    context = {}
-    books = Book.get_all()
-    paginator = Paginator(books, 6)
-    page = request.GET.get('page', 1)
-    try:
-        context["books"] = paginator.page(page)
-    except PageNotAnInteger:
-        context["books"] = paginator.page(1)
-    except EmptyPage:
-        context["books"] = paginator.page(paginator.num_pages)
-
-    context["page_title"] = "Books in stock"
-    context["page"] = page
-
-    return render(request, template_name, context)
+    return render(request, 'book/book_details.html', context)
 
 
-def book_search(request):
-    search = request.GET['search_box']
+def create_book(request):
+    if request.method != 'POST':
+        new_book = BookForm()
+        error = ''
+    else:
+        new_book = BookForm(request.POST)
+        if new_book.is_valid() and new_book.book_check():
+            book_id = new_book.save().id
+            return redirect('/book/', book_id)
+        else:
+            error = 'Form is incorrect!'
 
-    list_books = list(Book.objects.filter(Q(description__contains=search) | Q(name__contains=search)))
-    return render(request, 'books.html', {"list_books": list_books, "page_title": 'We found this books for you!!'})
+    context = {'book': new_book, 'error': error}
+    return render(request, 'book/create_book.html', context)
 
-def sort_book_asc(request):
-    template_name = "sort_book_by_asc.html"
-    books = Book.objects.all().order_by('name')
 
-    return render(request, template_name, {'books':books})
+def update_book(request, pk):
+    if request.method != 'POST':
+        updated_book = BookForm(instance=Book.get_by_id(pk))
+        error = ''
+    else:
+        updated_book = BookForm(request.POST, instance=Book.get_by_id(pk))
+        if updated_book.is_valid() and updated_book.book_check():
+            book_id = updated_book.save().id
+            return redirect('/book/', book_id)
+        else:
+            error = 'Form is incorrect'
 
-def sort_book_desc(request):
-    template_name = "sort_book_by_desc.html"
-    books = Book.objects.all().order_by('-name')
+    context = {'book': updated_book, 'error': error}
+    return render(request, 'book/create_book.html', context)
 
-    return render(request, template_name, {'books':books})
 
-def sort_book_count(request):
-    template_name = "sort_book_by_count.html"
-    books = Book.objects.all().order_by('-count')
+def delete_book(request, pk):
+    Book.delete_by_id(pk)
+    return redirect('/book/')
 
-    return render(request, template_name, {'books':books})
