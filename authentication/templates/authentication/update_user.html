@@ -1,0 +1,20 @@
+{% extends "wrapper.html" %}
+
+{% block title %}Update User{% endblock %}
+
+{% block content %}
+<style>
+label {
+    display: inline-block;
+    margin-bottom: .5rem;
+    min-width: 125px;
+}
+</style>
+    <h1>Update User</h1>
+    <p>Please enter correct details using the following form:</p>
+    <form action="." method="post">
+        {{ user_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm" value="Save"></p>
+    </form>
+{% endblock %}

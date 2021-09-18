@@ -22,6 +22,6 @@ urlpatterns = [
     path('', base_view, name="home"),
     path('book/', include('book.urls')),
     path('author/', include('author.urls')),
-    path('', include('authentication.urls')),
+    path('users/', include('authentication.urls')),
     path('', include('order.urls')),
 ]

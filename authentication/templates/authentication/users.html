@@ -1,0 +1,32 @@
+{% extends 'wrapper.html' %}
+
+{% block title %}
+    User List
+{% endblock %}
+
+{% block content %}
+
+<div class="container px-4 py-5" id="featured-3">
+    <h2 class="pb-2 border-bottom">Users Catalog</h2>
+        {% if users %}
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-6">
+            {% for user in users %}
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative" style="margin-right: 10px">
+                <div class="col p-3 d-flex flex-column position-static">
+                    <h2 class="mb-0">{{ user.first_name }}</h2>
+                    <h2 class="mb-0">{{ user.last_name }}</h2>
+                    <h2 class="mb-0">{{ user.middle_name }}</h2>
+                    <a href="{% url 'user_item' user.id %}"  class= "btn btn-lg btn-secondary btn-rounded btn-sm" style="margin-top: 10px"><small>Read more</small></a>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <h1>Sorry! But we don't have any users( </h1>
+        {% endif %}
+    <div class="row g-4 py-2 row-cols-1 row-cols-lg-6 border-top">
+        <br/><a href="{% url 'create_user' %}" class= "btn btn-lg btn-secondary btn-rounded btn-sm"><small>Add new user</small></a>
+    </div>
+</div>
+
+{% endblock %}
