@@ -1,6 +1,5 @@
-from django.forms import ModelForm, TextInput, SelectMultiple
+from django.forms import ModelForm, TextInput
 from .models import Author
-from book.models import Book
 
 
 class AuthorForm(ModelForm):
@@ -8,8 +7,7 @@ class AuthorForm(ModelForm):
         model = Author
         fields = ['name', 'surname', 'patronymic']
         widgets = {
-            "name": TextInput(attrs={'class': 'form-control', 'placeholder': 'first name'}),
-            "surname": TextInput(attrs={'class': 'form-control', 'placeholder': 'surname'}),
-            "patronymic": TextInput(attrs={'class': 'form-control', 'placeholder': 'patronymic'}),
-            # "books": SelectMultiple(attrs={ 'class': 'form-control', 'placeholder': 'books' })
+            "name": TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the First Name'}),
+            "surname": TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Surname'}),
+            "patronymic": TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Patronymic'}),
         }

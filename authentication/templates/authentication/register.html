@@ -11,10 +11,11 @@ label {
 }
 </style>
     <h1>Create an account</h1>
-    <p>Please, sign up using the following form:</p>
+    <p>Please, enter correct data filling the following fields:</p>
     <form action="." method="post">
         {{ user_form.as_p }}
         {% csrf_token %}
+        <br>
         <p><input type="submit" class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm" value="Create my account"></p>
     </form>
 {% endblock %}
