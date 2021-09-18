@@ -1,16 +1,14 @@
 from django.db import models, DataError, IntegrityError
 
 from authentication.models import CustomUser
-from author.models import Author
 from book.models import Book
-import datetime
 
 
 class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    end_at = models.DateTimeField(null=True)
+    end_at = models.DateTimeField(null=True, blank=True)
     plated_end_at = models.DateTimeField()
 
     def __str__(self):

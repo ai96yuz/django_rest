@@ -1,35 +1,41 @@
-from django.db import models
-from django.shortcuts import render
-from django.views import generic
-from authentication.models import CustomUser
+from django.shortcuts import render, redirect
+
+from .forms import OrderForm
 from .models import Order
 
 
-def home(request):
-    return render(request, "orders_home.html", {})
+def orders(request):
+    return render(request, 'order/orders.html', {'orders': Order.objects.all()})
 
 
-class AllOrdersCreated(generic.ListView):
-    model = Order
-    context_object_name = 'orders'
-    queryset = Order.objects.all().order_by('-created_at') 
-    template_name = 'all_orders_created_at.html'
+def order_item(request, order_id):
+    order = Order.objects.get(pk=order_id)
+    context = {'user': order.user, 'book': order.book, 'created_at': order.created_at,
+               'end_at': order.end_at, 'plated_end_at': order.plated_end_at
+               }
+
+    return render(request, 'order/order_details.html', context)
 
 
-class AllOrdersPlated(generic.ListView):
-    model = Order
-    context_object_name = 'orders'
-    queryset = Order.objects.all().order_by('-plated_end_at') 
-    template_name = 'orders_plated_at.html'
+def delete_order(request, order_id):
+    Order.delete_by_id(order_id)
+    return redirect('orders')
 
-def book_by_user(request, user_id=111):
-    template_name = 'book_detail_by_user.html'
-    books = Order.objects.filter(user=user_id)
-    user = CustomUser.objects.get(id=user_id)
-    return render(request, template_name, {'books':books, "user":user})
 
-class HandOverBook(generic.ListView):
-    template_name = 'hand_over_book.html'
-    context_object_name = 'orders'
-    queryset = Order.objects.filter(end_at=None)
-
+def orders_form(request, order_id=0):
+    if request.method == "GET":
+        if order_id == 0:
+            form = OrderForm()
+        else:
+            order = Order.objects.get(pk=order_id)
+            form = OrderForm(instance=order)
+        return render(request, "order/orders_form.html", {"form": form})
+    else:
+        if order_id == 0:
+            form = OrderForm(request.POST)
+        else:
+            order = Order.objects.get(pk=order_id)
+            form = OrderForm(request.POST, instance=order)
+        if form.is_valid:
+            form.save()
+            return redirect("orders")
