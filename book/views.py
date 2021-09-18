@@ -4,6 +4,8 @@ from .models import Book
 from order.models import Order
 from .forms import BookForm
 
+from django.db.models import Q
+
 
 def books(request):
     return render(request, 'book/books.html', {'books': Book.objects.all()})
@@ -55,4 +57,11 @@ def update_book(request, pk):
 def delete_book(request, pk):
     Book.delete_by_id(pk)
     return redirect('/book/')
+
+
+def book_search(request):
+    search_box = request.GET['search_box']
+    list_books = list(Book.objects.filter(Q(description__contains=search_box) | Q(name__contains=search_box)))
+
+    return render(request, 'book/book_search.html', {"list_books": list_books, "page_title": 'We found this books for you!!'})
 

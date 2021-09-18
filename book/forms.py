@@ -8,9 +8,9 @@ class BookForm(ModelForm):
         model = Book
         fields = ['name', 'description', 'count', 'authors']
         widgets = {
-            "name": TextInput(attrs={'class': 'form-control', 'placeholder': 'name of book'}),
-            "description": TextInput(attrs={'class': 'form-control', 'placeholder': 'book description'}),
-            "count": NumberInput(attrs={'class': 'form-control', 'placeholder': 'book count'}),
+            "name": TextInput(attrs={'class': 'form-control', 'placeholder': 'Name of book'}),
+            "description": TextInput(attrs={'class': 'form-control', 'placeholder': 'Book description'}),
+            "count": NumberInput(attrs={'class': 'form-control', 'placeholder': 'Book count'}),
             "authors": SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'authors'})
         }
 

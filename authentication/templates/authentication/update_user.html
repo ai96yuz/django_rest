@@ -11,10 +11,11 @@ label {
 }
 </style>
     <h1>Update User</h1>
-    <p>Please enter correct details using the following form:</p>
+    <p>Please, enter correct data filling the following fields:</p>
     <form action="." method="post">
         {{ user_form.as_p }}
         {% csrf_token %}
+        <br>
         <p><input type="submit" class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm" value="Save"></p>
     </form>
 {% endblock %}
