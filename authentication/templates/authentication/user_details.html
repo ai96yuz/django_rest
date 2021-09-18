@@ -1,0 +1,72 @@
+{% extends 'wrapper.html' %}
+
+{% block title %}
+    {{ name }} {{ surname}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+    <h1 class="pb-2 border-bottom">{{ name }} {{ surname }}</h1>
+    <table class="table" style="width: 100px">
+        <tbody>
+            <tr>
+                <th scope="row">First-Name:</th>
+                <td style="text-align: right">{{ first_name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Middle-Name:</th>
+                <td style="text-align: right">{{ middle_name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Last-Name:</th>
+                <td style="text-align: right">{{ last_name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">E-mail:</th>
+                <td style="text-align: right">{{ email }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Role:</th>
+                <td style="text-align: right">{{ role }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Active:</th>
+                <td style="text-align: right">{{ is_active }}</td>
+            </tr>
+        </tbody>
+    </table>
+        <article class="blog-post">
+            <h4 class="pb-2 border-bottom">User orders<br></h4>
+        </article>
+        {% if orders %}
+            <table class="table table-hover table-bordered  table-striped">
+                <tr>
+                    <td>Book</td>
+                    <td>Order creation time</td>
+                    <td>Should be returned at</td>
+                    <td>Returned at</td>
+                </tr >
+            {% for order in orders %}
+                <tr>
+                    <td><a href = "{% url 'book_item' order.book.id %}"> {{ order.book.name }}</a></td>
+                    <td>{{ order.created_at }}</td>
+                    <td>{{ order.plated_end_at }}</td>
+                {% if order.end_at %}
+                    <td>{{ order.end_at }}</td>
+                {% else %}
+                    <td><b>Not returned!</b></td>
+                {% endif %}
+                </tr>
+            {% endfor %}
+            </table>
+        {%else%}
+            No orders.
+        {% endif %}
+    <div class="row g-4 py-4 row-cols-1 row-cols-lg-6">
+        <br><br><a href="/users/delete/{{ id }}/" class= "btn btn-lg btn-secondary btn-rounded btn-sm"> <small><b>Delete user</b></small></a>
+        <br><a href="/users/signup/{{ id }}/" class= "btn btn-lg btn-secondary btn-rounded btn-sm"> <small><b>Update user</b></small></a>
+    </div>
+</div>
+
+{% endblock %}
