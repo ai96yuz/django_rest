@@ -5,6 +5,6 @@ urlpatterns = \
     [
         path('', views.orders, name='orders'),
         path('delete/<int:order_id>/', views.delete_order),
-        path('form', views.orders_form, name='create_orders'),
-        path('form/<int:order_id>/', views.orders_form, name='update_orders'),
+        path('create/', views.create_order, name='create_order'),
+        path('update/<int:order_id>/', views.create_order, name='update_orders'),
     ]

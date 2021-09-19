@@ -7,6 +7,24 @@
 {% block content %}
 <div class="container px-4 py-5" id="featured-3">
     <h2 class="pb-2 border-bottom">Orders Catalog</h2>
+    <form method="post" class='form-inline'>
+        {% csrf_token %}
+        <div class="form-group mb-2">
+          <select id="inputState" class="form-select form-select-sm" name="filter_menu">
+            <option selected>Show all orders</option>
+            <option>Show all books ordered by specific user (enter user id)</option>
+            <option>Show all orders sorted by created date</option>
+            <option>Show all orders sorted by planed date</option>
+            <option>Show all users who does not hand over books on time</option>
+          </select>
+        </div>
+        <div class="form-group mb-2">
+            <input class="input-group form-select-sm" name='title' type="search" placeholder="Input text" aria-label="Search">
+        </div>
+        <button type="submit" name='book' class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm">Submit</button>
+        <a href="{% url 'create_order' %}" class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm">Add new Order</a>
+    </form>
+    <br>
     <table class="table table-hover table-bordered  table-striped">
         <tr>
             <td>Id</td>
@@ -15,30 +33,29 @@
             <td>Order creation time</td>
             <td>Should be returned at</td>
             <td>Returned at</td>
-<!--            <td></td>-->
+            <td></td>
             <td></td>
         </tr >
-        {% if orders %}
-            {% for order in orders %}
-                <tr>
-                    <td>{{ order.id }}</td>
-                    <td><a href="{% url 'user_item' order.user.id %}"> {{ order.user.first_name }} {{order.user.last_name }}</a></td>
-                    <td><a href="{% url 'book_item' order.book.id %}"> {{ order.book.name }}</a></td>
-                    <td>{{ order.created_at }}</td>
-                    <td>{{ order.plated_end_at }}</td>
-                    {% if order.end_at %}
-                        <td>{{ order.end_at }}</td>
-                    {% else %}
-                        <td><b>Not returned!</b></td>
-                    {% endif %}
-<!--                    <td><a href="/orders/form/{{ order.id }}/">Update</a></td>-->
-                    <td><a href="/orders/delete/{{ order.id }}/">Delete</a></td>
-                </tr>
-            {% endfor %}
-        {% else %}
-            <p>No orders!</p>
-        {% endif %}
+<!--        {% if orders %}-->
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td><a href="{% url 'user_item' order.user.id %}"> {{ order.user.first_name }} {{order.user.last_name }}</a></td>
+                <td><a href="{% url 'book_item' order.book.id %}"> {{ order.book.name }}</a></td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.plated_end_at }}</td>
+                {% if order.end_at %}
+                    <td>{{ order.end_at }}</td>
+                {% else %}
+                    <td><b>Not returned!</b></td>
+                {% endif %}
+                <td><a href="/orders/update/{{ order.id }}/">Update</a></td>
+                <td><a href="/orders/delete/{{ order.id }}/">Delete</a></td>
+            </tr>
+        {% endfor %}
+<!--        {% else %}-->
+<!--            <p>No orders!</p>-->
+<!--        {% endif %}-->
     </table>
-<!--<a href="/orders/form" class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm">New Order</a>-->
 </div>
 {% endblock %}
