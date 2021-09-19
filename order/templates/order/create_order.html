@@ -1,0 +1,25 @@
+{% extends 'wrapper.html' %}
+
+{% block title %}
+    Order
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+    <h1 class="pb-2 border-bottom">Order Details</h1>
+
+        <form action="." method="post"> {% csrf_token %}
+            <small>Chose user:</small>
+            {{ form.user }}<br>
+            <small>Chose book:</small>
+            {{ form.book }}<br>
+            <small>Date plated end at:</small>
+            <br><input type="date" class="form-control" value={{form.plated_end_at}}
+            <br><input type='submit' class="col-lg-1 mt-3 btn btn-lg btn-secondary btn-rounded btn-sm" value='Submit'/>
+            {{ error }}
+        </form>
+
+</div>
+
+{% endblock %}

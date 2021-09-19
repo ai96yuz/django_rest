@@ -9,7 +9,7 @@
 <div class="container mt-5 mb-5">
     <h1 class="pb-2 border-bottom">Book Details</h1>
 
-        <form method = "POST"> {% csrf_token %}
+        <form action="." method="post"> {% csrf_token %}
             <small>Book title:</small>
             {{ book.name }}<br>
             <small>Book description:</small>

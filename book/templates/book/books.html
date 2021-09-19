@@ -8,11 +8,30 @@ Books
 
 <div class="container px-4 py-5" id="featured-3">
     <h2 class="pb-2 border-bottom">Books Catalog</h2>
+    <form method="post" class='form-inline' >
+        {% csrf_token %}
+          <div class="form-group mb-2 py-2">
+              <select id="inputState" class="form-select form-select-sm" name="filter_menu">
+                <option selected>Show all books</option>
+                <option>Show specific book (enter id)</option>
+                <option>Show all unordered book</option>
+                <option>Show all books by name of author</option>
+                <option>Show all books sorted by name asc</option>
+                <option>Show all books sorted by name desc</option>
+                <option>Show all books sorted by count</option>
+              </select>
+          </div>
+        <div class="form-group mb-2">
+            <input class="input-group form-select-sm" name='title' type="search" placeholder="Enter data" aria-label="Search">
+        </div>
+        <button type="submit" name='book' class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm">Submit</button>
+        <a href="{% url 'create_book' %}" class="col-lg-2 btn btn-lg btn-secondary btn-rounded btn-sm">Add new book</a>
+    </form>
     {% if books %}
-    <div class="row g-4 py-4 row-cols-1 row-cols-lg-3">
+    <div class="row p-1 row-cols-1 row-cols-lg-3">
         {% for book in books %}
-        <div class="row g-5 border rounded overflow-hidden flex-md-row mb-0 shadow-sm h-md-250 position-relative" style="margin-right: 24px">
-            <div class="col p-0 d-flex flex-column position-static">
+        <div class="col g-2 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-center">
+            <div class="p-2 d-flex flex-column position-static">
                 <h2>{{book.name}}</h2>
                 <p>{{book.description}}</p>
                 <a href="{% url 'book_item' book_id=book.id %}" class="mb-5">Read more</a>
@@ -23,9 +42,6 @@ Books
     {% else %}
     <h1>Sorry! But we don't have any books( </h1>
     {% endif %}
-    <div class="row g-4 py-2 row-cols-1 row-cols-lg-6">
-        <br/><a href="{% url 'create_book' %}" class= "btn btn-lg btn-secondary btn-rounded btn-sm"><small>Add new book</small></a>
-    </div>
 </div>
 
 {% endblock %}

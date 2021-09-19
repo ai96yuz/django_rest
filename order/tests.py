@@ -153,6 +153,7 @@ class TestOrderModel(TestCase):
         self.assertEqual(order.created_at, TEST_DATE)
         self.assertEqual(order.end_at, None)
         self.assertEqual(order.plated_end_at, new_date)
+
     def test_update_end_at(self):
         order = Order.objects.get(id=101)
         new_date = TEST_DATE_END + datetime.timedelta(days=4)

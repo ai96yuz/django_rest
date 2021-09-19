@@ -17,11 +17,6 @@ def user_item(request, user_id):
     return render(request, 'authentication/user_details.html', context)
 
 
-def delete_user(request, user_id):
-    CustomUser.delete_by_id(user_id)
-    return redirect('users')
-
-
 def user_profile(request):
     return redirect('users')
 
@@ -56,3 +51,8 @@ def update_user(request, user_id):
         if form.is_valid:
             form.save()
             return redirect(f"/users/{user_id}/")
+
+
+def delete_user(request, user_id):
+    CustomUser.delete_by_id(user_id)
+    return redirect('users')
