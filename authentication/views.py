@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import CustomUser
 from .forms import UserRegistrationForm
 from order.models import Order
+from rest_framework import generics
+from .serializers import *
 
 
 def users(request):
@@ -56,3 +58,21 @@ def update_user(request, user_id):
 def delete_user(request, user_id):
     CustomUser.delete_by_id(user_id)
     return redirect('users')
+
+
+class UserListCreate(generics.ListAPIView, generics.CreateAPIView):
+    serializer_class = CustomUserCommonSerializer
+    queryset = CustomUser.objects.all()
+
+
+class UserViewUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CustomUserCommonSerializer
+    queryset = CustomUser.objects.all()
+
+
+class OrdersListForUser(generics.ListAPIView):
+    serializer_class = CustomUserOrdersSerializer
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = Order.objects.filter(user=kwargs['user_pk'])
+        return self.list(request, *args, **kwargs)
