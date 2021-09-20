@@ -1,7 +1,6 @@
-Python online marathon. Sprint 17.
-om5-s17-team5
+Python online marathon. Sprint 18.
+Django REST
+om5-s18-team3
 
-Sprint 17 video description:
-https://www.youtube.com/watch?v=IXmDLrgF6z4
 
 ###### **python manage.py runserver**
