@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from rest_framework import viewsets
 
 from .models import Book
 from order.models import Order
 from .forms import BookForm
+from .serializers import BookSerializer
 
 
 def books(request):
@@ -101,3 +103,7 @@ def book_search(request):
 
     return render(request, 'book/book_search.html', {"list_books": list_books, "page_title": 'We found this books for you!!'})
 
+
+class BookView(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer

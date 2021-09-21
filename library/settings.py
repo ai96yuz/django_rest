@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-# AUTH_USER_MODEL = 'authentication.CustomUser'
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -91,7 +91,7 @@ DATABASE = "simpledbmamager"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'library3',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
