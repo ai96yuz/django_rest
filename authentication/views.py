@@ -1,6 +1,10 @@
+from django.contrib.auth import login, authenticate, logout
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
+from django.template import loader
+
 from .models import CustomUser
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, LoginForm, SignUpForm
 from order.models import Order
 from rest_framework import generics
 from .serializers import *
@@ -76,3 +80,46 @@ class OrdersListForUser(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         self.queryset = Order.objects.filter(user=kwargs['user_pk'])
         return self.list(request, *args, **kwargs)
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/book')
+    else:
+        form = SignUpForm()
+
+    template = loader.get_template('authentication/sign_up.html')
+    context = {
+        'form': form
+    }
+    return HttpResponse(template.render(context, request))
+
+
+
+def log_in(request):
+    if request.method == 'POST':
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            user = authenticate(request, username=email, password=password)
+
+            if user is not None:
+                login(request, user)
+
+            return HttpResponseRedirect('/')
+    else:
+        form = LoginForm()
+
+    template = loader.get_template('authentication/log_in.html')
+    context = {
+        'form': form
+    }
+    return HttpResponse(template.render(context, request))
+
+def log_out(request):
+    logout(request)
+    return redirect('home')

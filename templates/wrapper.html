@@ -21,6 +21,15 @@
               <li class="nav-item"><a href="{% url 'authors' %}" class="nav-link">Authors</a></li>
               <li class="nav-item"><a href="{% url 'users' %}" class="nav-link">Users</a></li>
               <li class="nav-item"><a href="{% url 'orders' %}" class="nav-link">Orders</a></li>
+                {% if user.is_authenticated %}
+                <p>Welcome, {{ user.get_username }}.</p>
+                <li class="nav-item"><a href="{% url 'logout'%}" class="nav-link">Log out</a></li>
+        {% else %}
+                <p>Welcome. You are not logged in</p>
+            <li class="nav-item"><a href="{% url 'log_in'%}" class="nav-link">Log in</a></li>
+                <li class="nav-item"><a href="{% url 'sign_up'%}" class="nav-link">Sign up</a></li>
+        {% endif %}
+
             </ul>
             <form type="get" action="{% url 'book_search' %} " style="margin-top: 5px">
                 <input  class="mr-sm-2" id="search_box" type="search" name="search_box"  placeholder="Search" aria-label="Search">
