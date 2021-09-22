@@ -26,6 +26,17 @@
                 <input  class="mr-sm-2" id="search_box" type="search" name="search_box"  placeholder="Search" aria-label="Search">
                 <button class= "btn btn-lg btn-primary btn-rounded btn-sm" type="submit" style="margin-bottom: 5px">Search</button>
             </form>
+            <ul class="nav nav-pills">
+            {% if user.is_authenticated %}
+                <p>Welcome, {{ user.get_username }}.</p>
+                <li class="nav-item"><a href="{% url 'logout'%}" class="nav-link">Log out</a></li>
+            {% else %}
+<!--                <p>Welcome. You are not logged in</p>-->
+                <li class="nav-item"><a href="{% url 'log_in'%}" class="nav-link">Log in</a></li>
+                <li class="nav-item"><a href="{% url 'sign_up'%}" class="nav-link">Sign up</a></li>
+            {% endif %}
+            </ul>
+
           </header>
     </div>
     <body>

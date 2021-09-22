@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 import datetime
 
+from rest_framework import viewsets
+
 from .forms import OrderForm
 from .models import Order
+from .serializers import OrderSerializer
 
 
 def orders(request):
@@ -67,3 +70,7 @@ def create_order(request, order_id=0):
         if form.is_valid:
             form.save()
             return redirect("orders")
+
+class OrderView(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

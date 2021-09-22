@@ -1,9 +1,10 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.validators import validate_email
 from django.db import models, IntegrityError
 from django.db.utils import DataError
-
 
 ROLE_CHOICES = (
     (0, 'visitor'),
@@ -11,7 +12,40 @@ ROLE_CHOICES = (
 )
 
 
-class CustomUser(AbstractBaseUser):
+class MyUserManager(BaseUserManager):
+    def create_user(self, email, password=None):
+        """
+        Creates and saves a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email)
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, password=None):
+        """
+        Creates and saves a superuser with the given email and password.
+        """
+        user = self.create_user(
+            email,
+            password=password,
+        )
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.save(using=self._db)
+
+        return user
+
+
+class CustomUser(AbstractBaseUser,  PermissionsMixin):
     """
         This class represents a basic user. \n
         Attributes:
@@ -45,10 +79,17 @@ class CustomUser(AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     role = models.IntegerField(default=0, choices=ROLE_CHOICES)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    username = None
 
     USERNAME_FIELD = 'email'
-    objects = BaseUserManager()
+    REQUIRED_FIELDS = []
+
+    objects = MyUserManager()
 
     def __str__(self):
         """
@@ -57,7 +98,7 @@ class CustomUser(AbstractBaseUser):
                  user email, user password, user updated_at, user created_at,
                  user role, user is_active
         """
-        return str(self.to_dict())[1:-1]
+        return f"{self.first_name} {self.last_name}"
 
     def __repr__(self):
         """
@@ -126,7 +167,6 @@ class CustomUser(AbstractBaseUser):
         :type password: str
         :return: a new user object which is also written into the DB
         """
-        # print(validate_email("96mail.com"))
         data = {}
         data['first_name'] = first_name if first_name else ''
         data['last_name'] = last_name if last_name else ''
@@ -222,3 +262,15 @@ class CustomUser(AbstractBaseUser):
         returns str role name
         """
         return self.get_role_display()
+
+    @staticmethod
+    def paginate(users, page, page_size=10):
+        paginator = Paginator(users, page_size)
+        try:
+            users = paginator.page(page)
+        except PageNotAnInteger:
+            users = paginator.page(1)
+        except EmptyPage:
+            users = paginator.page(paginator.num_pages)
+
+        return users

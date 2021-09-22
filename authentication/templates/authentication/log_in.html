@@ -1,0 +1,22 @@
+{% extends "wrapper.html" %}
+
+{% block content %}
+    <h2 class="border-bottom m-2 p-2">Login to your personal account</h2>
+
+<form method="post" class="m-2 p-2">
+  {% csrf_token %}
+  {% for field in form %}
+    <p>
+      {{ field.label_tag }}<br>
+      {{ field }}
+      {% if field.help_text %}
+        <small style="color: grey">{{ field.help_text }}</small>
+      {% endif %}
+      {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+      {% endfor %}
+    </p>
+  {% endfor %}
+  <button type="submit" class= "btn btn-lg btn-primary btn-rounded btn-sm">Log in</button>
+</form>
+{% endblock content %}
